@@ -95,10 +95,56 @@ const postDetail = async (req, res) => {
   }
 };
 
+//! Update a post:
+const updatePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (post.author.toString() !== req.user.id)
+      return res.status(403).json({ message: "Unauthorized" });
+
+    const { title, content } = req.body;
+
+    if (title) post.title = title;
+    if (content) post.content = content;
+
+    await post.save();
+
+    const updatedPost = await Post.findById(post._id)
+      .populate("author", "name")
+      .populate("comments.user", "name");
+
+    res.json(updatedPost);
+  } catch (err) {
+    console.error("Update post error:", err);
+    res.status(500).json({ message: "Failed to update post" });
+  }
+};
+
+//! Delete a post:
+const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+    if (post.author.toString() !== req.user.id)
+      return res.status(403).json({ message: "Unauthorized" });
+
+    await post.deleteOne();
+    res.json({ message: "Post deleted successfully" });
+  } catch (err) {
+    console.error("Delete post error:", err);
+    res.status(500).json({ message: "Failed to delete post" });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   likePost,
   addComment,
   postDetail,
+  updatePost,
+  deletePost,
 };
