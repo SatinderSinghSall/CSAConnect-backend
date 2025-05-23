@@ -7,7 +7,7 @@ const createPost = async (req, res) => {
     // console.log("Request file:", req.file);
     // console.log("User info:", req.user);
 
-    const { title, content } = req.body;
+    const { title, content, skills } = req.body;
 
     if (!title || !content) {
       return res
@@ -18,6 +18,7 @@ const createPost = async (req, res) => {
     const post = new Post({
       title,
       content,
+      skills,
       author: req.user.id,
     });
 
