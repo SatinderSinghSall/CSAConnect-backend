@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Admin = require("../models/Admin");
 
 //! Get all users
 const getAllUsers = async (req, res) => {
@@ -46,9 +47,49 @@ const deletePostAdmin = async (req, res) => {
   }
 };
 
+//! Get all admin users
+const getAllAdmins = async (req, res) => {
+  try {
+    const admins = await Admin.find({}, "-password"); // Exclude password field
+    res.json(admins);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch admins" });
+  }
+};
+
+//! Delete an admin
+const deleteAdmin = async (req, res) => {
+  try {
+    const admin = await Admin.findByIdAndDelete(req.params.id);
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+    res.json({ message: "Admin deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete admin" });
+  }
+};
+
+//! Update an admin
+const updateAdmin = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const admin = await Admin.findByIdAndUpdate(
+      req.params.id,
+      { name, email },
+      { new: true, runValidators: true }
+    );
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+    res.json(admin);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update admin" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
   getAllPostsAdmin,
   deletePostAdmin,
+  getAllAdmins,
+  deleteAdmin,
+  updateAdmin,
 };
