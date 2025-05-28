@@ -141,6 +141,26 @@ const deletePost = async (req, res) => {
   }
 };
 
+//! Get posts by the logged-in user:
+const getMyPosts = async (req, res) => {
+  try {
+    // console.log("➡️ [getMyPosts] User ID from token:", req.user?.id);
+
+    const posts = await Post.find({ author: req.user.id })
+      .populate("author", "name email")
+      .populate("comments.user", "name")
+      .sort({ createdAt: -1 });
+
+    // console.log("✅ [getMyPosts] Posts found:", posts.length);
+    res.status(200).json(posts);
+  } catch (err) {
+    console.error("❌ [getMyPosts] Error:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch your posts", error: err.message });
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
@@ -149,4 +169,5 @@ module.exports = {
   postDetail,
   updatePost,
   deletePost,
+  getMyPosts,
 };
