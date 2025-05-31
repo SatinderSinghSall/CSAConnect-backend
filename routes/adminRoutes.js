@@ -7,6 +7,7 @@ const {
   getAllAdmins,
   deleteAdmin,
   updateAdmin,
+  deleteComment,
 } = require("../controllers/adminController");
 
 const adminAuth = require("../middleware/adminAuth");
@@ -25,5 +26,7 @@ router.delete("/posts/:id", deletePostAdmin);
 router.get("/admins", getAllAdmins);
 router.delete("/admins/:id", deleteAdmin);
 router.put("/admins/:id", updateAdmin);
+
+router.delete("/posts/:postId/comments/:commentId", deleteComment);
 
 module.exports = router;

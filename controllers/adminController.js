@@ -84,6 +84,24 @@ const updateAdmin = async (req, res) => {
   }
 };
 
+//! Delete a comment from a post
+const deleteComment = async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    post.comments = post.comments.filter(
+      (comment) => comment._id.toString() !== commentId
+    );
+    await post.save();
+
+    res.json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete comment" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -92,4 +110,5 @@ module.exports = {
   getAllAdmins,
   deleteAdmin,
   updateAdmin,
+  deleteComment,
 };
