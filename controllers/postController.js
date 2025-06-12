@@ -15,11 +15,14 @@ const createPost = async (req, res) => {
         .json({ message: "Title and content are required" });
     }
 
+    const imageUrl = req.file ? req.file.path : "";
+
     const post = new Post({
       title,
       content,
       skills,
       link,
+      image: imageUrl,
       author: req.user.id,
     });
 

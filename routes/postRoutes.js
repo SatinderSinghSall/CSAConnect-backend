@@ -10,10 +10,13 @@ const {
   deletePost,
   getMyPosts,
 } = require("../controllers/postController.js");
+const upload = require("../middleware/upload");
 
 const router = express.Router();
 
-router.post("/", authMiddleware, createPost);
+// router.post("/", authMiddleware, createPost);
+router.post("/", authMiddleware, upload.single("image"), createPost);
+
 router.get("/", getAllPosts);
 
 router.get("/my-posts", authMiddleware, getMyPosts);
