@@ -22,7 +22,10 @@ exports.addChallenge = async (req, res) => {
 
 exports.getAllChallenges = async (req, res) => {
   try {
-    const challenges = await Challenge.find().sort({ createdAt: -1 });
+    const challenges = await Challenge.find()
+      .populate("postedBy", "name")
+      .sort({ createdAt: -1 });
+
     res.status(200).json(challenges);
   } catch (error) {
     console.error("Get Challenges Error:", error);
