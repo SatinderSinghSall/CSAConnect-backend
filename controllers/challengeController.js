@@ -1,0 +1,31 @@
+const Challenge = require("../models/Challenge");
+
+// @desc    Add a new challenge
+// @route   POST /api/challenges
+// @access  Public or Admin (based on your auth)
+exports.addChallenge = async (req, res) => {
+  const { title, content, link } = req.body;
+
+  if (!title || !content || !link) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  try {
+    const challenge = new Challenge({ title, content, link });
+    await challenge.save();
+    res.status(201).json({ message: "Challenge added successfully." });
+  } catch (error) {
+    console.error("Add Challenge Error:", error);
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
+exports.getAllChallenges = async (req, res) => {
+  try {
+    const challenges = await Challenge.find().sort({ createdAt: -1 });
+    res.status(200).json(challenges);
+  } catch (error) {
+    console.error("Get Challenges Error:", error);
+    res.status(500).json({ message: "Failed to fetch challenges." });
+  }
+};
