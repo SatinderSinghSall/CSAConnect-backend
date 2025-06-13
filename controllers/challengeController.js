@@ -32,3 +32,16 @@ exports.getAllChallenges = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch challenges." });
   }
 };
+
+exports.deleteChallenge = async (req, res) => {
+  try {
+    const challenge = await Challenge.findByIdAndDelete(req.params.id);
+    if (!challenge) {
+      return res.status(404).json({ message: "Challenge not found." });
+    }
+    res.status(200).json({ message: "Challenge deleted successfully." });
+  } catch (error) {
+    console.error("Delete Challenge Error:", error);
+    res.status(500).json({ message: "Server error." });
+  }
+};
