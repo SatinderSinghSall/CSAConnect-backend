@@ -4,14 +4,14 @@ const Challenge = require("../models/Challenge");
 // @route   POST /api/challenges
 // @access  Public or Admin (based on your auth)
 exports.addChallenge = async (req, res) => {
-  const { title, content, link } = req.body;
+  const { title, content, link, postedBy } = req.body;
 
-  if (!title || !content || !link) {
+  if (!title || !content || !link || !postedBy) {
     return res.status(400).json({ message: "All fields are required." });
   }
 
   try {
-    const challenge = new Challenge({ title, content, link });
+    const challenge = new Challenge({ title, content, link, postedBy });
     await challenge.save();
     res.status(201).json({ message: "Challenge added successfully." });
   } catch (error) {
