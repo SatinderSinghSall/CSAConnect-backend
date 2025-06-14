@@ -21,6 +21,7 @@ exports.addChallenge = async (req, res) => {
     // Fetch all user emails
     const users = await User.find({}, "email");
     const emailList = users.map((user) => user.email);
+    const testEmail = "satindersinghsall111@gmail.com";
 
     // Set up the transporter
     const transporter = nodemailer.createTransport({
@@ -40,7 +41,7 @@ exports.addChallenge = async (req, res) => {
     <div style="font-family: 'Segoe UI', sans-serif; max-width: 600px; margin: auto; background-color: #f9f9f9; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #333;">
       <h2 style="color: #007bff; text-align: center;">🚀 New Challenge Alert!</h2>
       <p style="font-size: 16px;">Hi there,</p>
-      <p style="font-size: 16px;"><strong>${adminName}</strong> has just posted a new challenge on <strong>CSA Connect</strong>. Check out the details below:</p>
+      <p style="font-size: 16px;"><strong>${adminName}</strong> has just posted a new challenge on <strong>REVA University: CSA Connect</strong>. Check out the details below:</p>
       
       <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; border-left: 5px solid #007bff; margin: 20px 0;">
         <p style="margin: 0; font-size: 16px;"><strong>📌 Title:</strong> ${title}</p>
