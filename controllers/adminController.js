@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Admin = require("../models/Admin");
+const Challenge = require("../models/Challenge");
 
 //! Get all users
 const getAllUsers = async (req, res) => {
@@ -102,6 +103,16 @@ const deleteComment = async (req, res) => {
   }
 };
 
+//! Get all Challenges Count:
+const getChallengeCount = async (req, res) => {
+  try {
+    const count = await Challenge.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch challenge count" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   deleteUser,
@@ -111,4 +122,5 @@ module.exports = {
   deleteAdmin,
   updateAdmin,
   deleteComment,
+  getChallengeCount,
 };

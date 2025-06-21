@@ -8,6 +8,7 @@ const {
   deleteAdmin,
   updateAdmin,
   deleteComment,
+  getChallengeCount,
 } = require("../controllers/adminController");
 
 const adminAuth = require("../middleware/adminAuth");
@@ -28,5 +29,7 @@ router.delete("/admins/:id", deleteAdmin);
 router.put("/admins/:id", updateAdmin);
 
 router.delete("/posts/:postId/comments/:commentId", deleteComment);
+
+router.get("/challenges/count", getChallengeCount);
 
 module.exports = router;
